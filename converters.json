@@ -1,0 +1,8 @@
+{
+  "raw_counts":"api.converters.data_resource.LocalDockerSingleDataResourceConverter", 
+  "base_condition_samples": "api.converters.element_set.ObservationSetCsvConverter",
+  "experimental_condition_samples": "api.converters.element_set.ObservationSetCsvConverter",
+  "base_condition_name": "api.converters.basic_attributes.StringConverter",
+  "experimental_condition_name": "api.converters.basic_attributes.StringConverter",
+  "min_reads_cutoff": "api.converters.basic_attributes.IntegerConverter"
+}

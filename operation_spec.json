@@ -1,0 +1,70 @@
+{
+    "name": "Limma/voom", 
+    "description": "Execute a simple differential expression analysis comparing two groups of samples.", 
+    "inputs": {
+        "raw_counts": {
+            "description": "The input raw count matrix. Must be an integer-based table.", 
+            "name": "Count matrix:", 
+            "required": true, 
+            "spec": {
+                "attribute_type": "DataResource", 
+                "resource_types": ["I_MTX", "RNASEQ_COUNT_MTX"], 
+                "many": false
+            }
+        }, 
+        "base_condition_samples": {
+            "description": "The set of samples that are in the \"base\" or \"control\" condition.", 
+            "name": "Control/base group samples:", 
+            "required": true, 
+            "spec": {
+                "attribute_type": "ObservationSet"
+            }
+        },
+        "experimental_condition_samples": {
+            "description": "The set of samples that are in the \"treated\" or \"experimental\" condition.", 
+            "name": "Treated/experimental samples:", 
+            "required": true, 
+            "spec": {
+                "attribute_type": "ObservationSet"
+            }
+        },
+        "base_condition_name": {
+            "description": "The condition that should be considered as the \"control\" or \"baseline\".", 
+            "name": "Base condition:", 
+            "required": false, 
+            "spec": {
+                "attribute_type": "String",
+                "default": "Control"
+            }
+        },
+        "experimental_condition_name": {
+            "description": "The condition that should be considered as the \"non-control\" or \"experimental\".", 
+            "name": "Experimental/treated condition", 
+            "required": false, 
+            "spec": {
+                "attribute_type": "String",
+                "default": "Experimental"
+            }
+        },
+        "min_reads_cutoff": {
+            "description": "If all samples have fewer than this number of reads for a particular gene, then remove this gene.", 
+            "name": "Mininum read cutoff:", 
+            "required": false, 
+            "spec": {
+                "attribute_type": "Integer",
+                "default": 1
+            }
+        }
+    }, 
+    "outputs": {
+        "dge_results": {
+            "spec": {
+                "attribute_type": "DataResource", 
+                "resource_type": "FT",
+                "many": false
+            }
+        }
+    }, 
+    "mode": "local_docker",
+    "workspace_operation": true
+}
