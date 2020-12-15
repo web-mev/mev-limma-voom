@@ -101,10 +101,16 @@ cols[which(names(m) == 'adj.P.Val')] = 'padj'
 cols[which(names(m) == 'logFC')] = 'log2FoldChange'
 colnames(m) <- cols
 
+# the merge ends up changing the sort order, so resort:
+m = m[order(m$pvalue),]
+
+# write the concatenated table to file
 contrast_str <- paste0(CONDITION_B, '_vs_', CONDITION_A)
 f <- paste0(OUTPUT_FILE_BASE, '.', contrast_str, '.tsv')
+f <- paste(working_dir, f, sep='/')
 write.table(m, f, sep='\t', quote=F)
 
+# create the expected outputs file:
 json_str <- paste0('{"dge_results":"', f, '"}')
 output_json <- paste(working_dir, 'outputs.json', sep='/')
 write(json_str, output_json)
