@@ -86,7 +86,7 @@ efit <- eBayes(fitted_data)
 t<-topTreat(efit, coef=paste0('conditions',CONDITION_B), sort.by='P', n=Inf)
 
 # Produce the normalized counts-per-million values
-nc <- cpm(v, normalized.lib.sizes = TRUE, log = FALSE)
+nc <- cpm(d, normalized.lib.sizes = TRUE, log = FALSE)
 
 # merge the two matrices, which makes it easier to work with on the front-end
 m <- merge(t, nc, by="row.names")
