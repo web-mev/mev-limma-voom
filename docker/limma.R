@@ -99,6 +99,8 @@ cols <- colnames(m)
 cols[which(names(m) == 'P.Value')] = 'pvalue'
 cols[which(names(m) == 'adj.P.Val')] = 'padj'
 cols[which(names(m) == 'logFC')] = 'log2FoldChange'
+cols[which(names(m) == 'AveExpr')] = 'overall_mean'
+cols[which(names(m) == 't')] = 'statistic'
 colnames(m) <- cols
 
 # the merge ends up changing the sort order, so resort:
