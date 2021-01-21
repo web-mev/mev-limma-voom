@@ -83,7 +83,7 @@ fitted_data <- lmFit(v, design)
 efit <- eBayes(fitted_data)
 
 # Get the top hits, sorted by raw p-value
-t<-topTreat(efit, coef=paste0('conditions',CONDITION_B), sort.by='P', n=Inf)
+t<-topTable(efit, coef=paste0('conditions',CONDITION_B), sort.by='P', n=Inf)
 
 # Produce the normalized counts-per-million values
 nc <- cpm(d, normalized.lib.sizes = TRUE, log = FALSE)
