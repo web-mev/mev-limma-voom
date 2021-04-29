@@ -30,6 +30,17 @@ base_samples <- make.names(orig_base_samples)
 orig_exp_samples <- strsplit(EXPERIMENTAL_CONDITION_SAMPLES, ',')[[1]]
 exp_samples <- make.names(orig_exp_samples)
 
+intersection_list = intersect(base_samples, exp_samples)
+
+if (length(intersection_list) > 0){
+    sample_list = paste0(intersection_list, collapse=',')
+    message(paste(
+       'The following samples were in both contrast groups. Fix this and try again: ',
+       sample_list
+    ))
+    quit(status=1)
+}
+
 # create a full list. Note that we have to track the original sample names
 # so we can map back at the end
 all_samples <- c(base_samples, exp_samples)
