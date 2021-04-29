@@ -25,9 +25,19 @@ CONDITION_B <- make.names(CONDITION_B)
 contrast_str <- paste0(CONDITION_B, '_vs_', CONDITION_A)
 
 # the sample names are given as a comma-delimited string. Split them
-base_samples <- make.names(strsplit(BASE_CONDITION_SAMPLES, ',')[[1]])
-exp_samples <- make.names(strsplit(EXPERIMENTAL_CONDITION_SAMPLES, ',')[[1]])
+orig_base_samples = strsplit(BASE_CONDITION_SAMPLES, ',')[[1]]
+base_samples <- make.names(orig_base_samples)
+orig_exp_samples <- strsplit(EXPERIMENTAL_CONDITION_SAMPLES, ',')[[1]]
+exp_samples <- make.names(orig_exp_samples)
+
+# create a full list. Note that we have to track the original sample names
+# so we can map back at the end
 all_samples <- c(base_samples, exp_samples)
+original_sample_names <- c(orig_base_samples, orig_exp_samples)
+colname_mapping = data.frame(
+    orig_names = original_sample_names,
+    row.names=all_samples,
+    stringsAsFactors=F)
 
 condition_a_list <- rep(CONDITION_A, length(base_samples))
 condition_b_list <- rep(CONDITION_B, length(exp_samples))
@@ -88,12 +98,16 @@ t<-topTable(efit, coef=paste0('conditions',CONDITION_B), sort.by='P', n=Inf)
 
 # Produce the normalized counts-per-million values
 nc <- cpm(d, normalized.lib.sizes = TRUE, log = FALSE)
+nc_cols = colnames(nc)
+remapped_cols = colname_mapping[nc_cols, 'orig_names']
+colnames(nc) = remapped_cols
 
 # merge the two matrices, which makes it easier to work with on the front-end
 m <- merge(t, nc, by="row.names")
 rownames(m) <- m[,'Row.names']
 drop_cols <- c('Row.names')
 m <- m[, !(names(m) %in% drop_cols)]
+
 
 # rename columns so we don't have to adjust interfaces on the front-end
 cols <- colnames(m)
