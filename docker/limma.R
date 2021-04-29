@@ -58,8 +58,9 @@ d <- DGEList(count_data)
 d <- calcNormFactors(d)
 
 # drop lowly expressed genes
-low_genes <- which(apply(cpm(d), 1, max) < CUTOFF)
-d <- d[-low_genes,] 
+max_per_row <- apply(cpm(d), 1, max)
+drop_rows <- max_per_row < 1
+d <- d[!drop_rows,]
 
 # if there is nothing left, exit...
 if (dim(d)[1] == 0){
