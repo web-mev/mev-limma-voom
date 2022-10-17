@@ -12,6 +12,7 @@ CUTOFF<-as.integer(args[6])
 
 # the "prefix" for the output file
 OUTPUT_FILE_BASE <- 'limma_voom_results'
+OUTPUT_NORMALIZED_COUNTS_BASE <- 'voom_cpm_normalized_counts'
 
 # change the working directory to co-locate with the counts file:
 working_dir <- dirname(RAW_COUNT_MATRIX)
@@ -134,12 +135,19 @@ m = m[order(m$pvalue),]
 
 # write the concatenated table to file
 contrast_str <- paste0(CONDITION_B, '_vs_', CONDITION_A)
-f <- paste0(OUTPUT_FILE_BASE, '.', contrast_str, '.tsv')
-f <- paste(working_dir, f, sep='/')
-write.table(m, f, sep='\t', quote=F)
+f1 <- paste0(OUTPUT_FILE_BASE, '.', contrast_str, '.tsv')
+f1 <- paste(working_dir, f1, sep='/')
+write.table(m, f1, sep='\t', quote=F)
+
+f2 <- paste(OUTPUT_NORMALIZED_COUNTS_BASE, contrast_str, 'tsv', sep='.')
+f2 <- paste(working_dir, f2, sep='/')
+write.table(nc, f2, sep='\t', quote=F, row.names=F)
 
 # create the expected outputs file:
-json_str <- paste0('{"dge_results":"', f, '"}')
+json_str = paste0(
+       '{"dge_results":"', f1, '",',
+       '"normalized_counts":"', f2, '"}'
+)
 output_json <- paste(working_dir, 'outputs.json', sep='/')
 write(json_str, output_json)
 
