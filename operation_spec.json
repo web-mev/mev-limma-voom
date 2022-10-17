@@ -35,6 +35,7 @@
             "description": "The condition that should be considered as the \"control\" or \"baseline\".", 
             "name": "Base condition:", 
             "required": false, 
+            "converter": "api.converters.basic_attributes.StringConverter",
             "spec": {
                 "attribute_type": "String",
                 "default": "Control"
