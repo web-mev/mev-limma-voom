@@ -141,7 +141,7 @@ write.table(m, f1, sep='\t', quote=F)
 
 f2 <- paste(OUTPUT_NORMALIZED_COUNTS_BASE, contrast_str, 'tsv', sep='.')
 f2 <- paste(working_dir, f2, sep='/')
-write.table(nc, f2, sep='\t', quote=F, row.names=F)
+write.table(nc, f2, sep='\t', quote=F, row.names=T)
 
 # create the expected outputs file:
 json_str = paste0(
