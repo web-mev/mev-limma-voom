@@ -55,7 +55,7 @@
             "description": "If all samples have fewer than this number of reads for a particular gene, then remove this gene.", 
             "name": "Mininum read cutoff:", 
             "required": false, 
-            "converter": "api.converters.basic_attributes.StringConverter",
+            "converter": "api.converters.basic_attributes.IntegerConverter",
             "spec": {
                 "attribute_type": "Integer",
                 "default": 1
