@@ -67,11 +67,20 @@ count_data <- read.table(RAW_COUNT_MATRIX, sep='\t', header = T, row.names = 1, 
 count_mtx_cols <- colnames(count_data)
 annotations <- annotations[annotations$sample %in% count_mtx_cols,]
 
+# Check that after subsetting samples, we actually have more than one 'condition' represented.
+# This also covers the edge case where only a single sample name was valid. In that case, the 
+# column subset below produces an array and `dim(count_data)[2]` throws an error.
+fl <- length(levels(as.factor(annotations$sample)))
+if(fl < 2){
+    message(sprintf('After subsetting the matrix for the samples of interest (%d found), only one cohort of samples was present. Please double-check your inputs or sample names.',  dim(annotations)[1]))
+    quit(status=1)
+}
+
 # subset to only keep samples corresponding to the current groups in the count_data dataframe
 count_data <- count_data[,annotations$sample]
 
 if (dim(count_data)[2] == 0){
-    message('After subsetting the matrix for the samples of interest, the matrix was empty. Please check the input samples and matrix')
+    message(sprintf('After subsetting the matrix for the samples of interest, the matrix was empty. Please check the input samples and matrix')
     quit(status=1)
 }
 
