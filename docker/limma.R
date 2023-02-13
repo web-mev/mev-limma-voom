@@ -31,6 +31,15 @@ base_samples <- make.names(orig_base_samples)
 orig_exp_samples <- strsplit(EXPERIMENTAL_CONDITION_SAMPLES, ',')[[1]]
 exp_samples <- make.names(orig_exp_samples)
 
+if(
+    (length(orig_base_samples) < 2)
+    ||
+    (length(exp_samples) < 2)
+){
+    message('One or both of your sample sets contained fewer than 2 samples. To perform differential expression analysis, replicates are required.')
+    quit(status=1)
+}
+
 intersection_list = intersect(base_samples, exp_samples)
 
 if (length(intersection_list) > 0){
@@ -80,7 +89,7 @@ if(fl < 2){
 count_data <- count_data[,annotations$sample]
 
 if (dim(count_data)[2] == 0){
-    message(sprintf('After subsetting the matrix for the samples of interest, the matrix was empty. Please check the input samples and matrix')
+    message('After subsetting the matrix for the samples of interest, the matrix was empty. Please check the input samples and matrix')
     quit(status=1)
 }
 
