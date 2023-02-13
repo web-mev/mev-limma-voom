@@ -79,7 +79,7 @@ annotations <- annotations[annotations$sample %in% count_mtx_cols,]
 # Check that after subsetting samples, we actually have more than one 'condition' represented.
 # This also covers the edge case where only a single sample name was valid. In that case, the 
 # column subset below produces an array and `dim(count_data)[2]` throws an error.
-fl <- length(levels(as.factor(annotations$sample)))
+fl <- length(levels(as.factor(annotations$condition)))
 if(fl < 2){
     message(sprintf('After subsetting the matrix for the samples of interest (%d found), only one cohort of samples was present. Please double-check your inputs or sample names.',  dim(annotations)[1]))
     quit(status=1)
