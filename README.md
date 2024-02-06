@@ -18,23 +18,18 @@ Either:
 - build the Docker image using the contents of the `docker/` folder (e.g. `docker build -t myuser/limma:v1 .`) 
 - pull the docker image from the GitHub container repository (see https://github.com/web-mev/mev-limma-voom/pkgs/container/mev-limma-voom)
 
-To run, enter the container in an interactive shell:
+To run, change into the directory containing your raw/integer count matrix you wish to use. Then:
 ```
-docker run -it -v$PWD:/work <IMAGE>
-```
-(here, we mount the current directory to `/work` inside the container)
-
-Then, run the script:
-```
-Rscript /opt/software/limma.R \
-    <path to raw/integer counts> \
+Rscript /usr/local/bin/limma.R \
+    /work/<raw/integer counts> \
     <base/control condition samples as CSV-string> \
     <experimental condition samples as CSV-string> \
     <base/control condition name> \
     <experimental condition name> \
     <minimum number of reads cutoff>
-
 ```
+Note that we mounted your current directory to `/work` inside the Docker container. Hence, your file is relative to `/work`.
+
 The call to the script assumes the following:
 - The input file of expression counts is tab-delimited format and contains only integer entries
 - The samples in either the control or experimental groups are given as comma-delimited strings and correspond to the column names contained in the raw count matrix. As an example, if the base/control samples are A, B, and C, specify: `"A,B,C"`. The wrapping quotations are not necessary unless the sample names contain whitespace.
