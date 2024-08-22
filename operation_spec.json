@@ -3,49 +3,52 @@
     "description": "Execute a simple differential expression analysis comparing two groups of samples.", 
     "inputs": {
         "raw_counts": {
-            "description": "The input raw count matrix. Must be an integer-based table.", 
+            "description": "The input raw count matrix.", 
             "name": "Count matrix:", 
             "required": true, 
-            "converter": "api.converters.data_resource.LocalDockerSingleVariableDataResourceConverter",
+            "converter": "api.converters.data_resource.ECSSingleVariableDataResourceConverter",
             "spec": {
                 "attribute_type": "VariableDataResource", 
                 "resource_types": ["I_MTX", "RNASEQ_COUNT_MTX", "MTX", "EXP_MTX"], 
                 "many": false
             }
         }, 
-        "base_condition_samples": {
-            "description": "The set of samples that are in the \"base\" or \"control\" condition.", 
-            "name": "Control/base group samples:", 
+        "annotations": {
+            "description": "An annotation table specifying which samples correspond to which groups", 
+            "name": "Sample annotations:", 
             "required": true, 
-            "converter": "api.converters.element_set.ObservationSetCsvConverter",
+            "converter": "api.converters.data_resource.ECSSingleDataResourceConverter",
             "spec": {
-                "attribute_type": "ObservationSet"
+                "attribute_type": "DataResource", 
+                "resource_type": "ANN", 
+                "many": false
             }
-        },
-        "experimental_condition_samples": {
-            "description": "The set of samples that are in the \"treated\" or \"experimental\" condition.", 
-            "name": "Treated/experimental samples:", 
-            "required": true, 
-            "converter": "api.converters.element_set.ObservationSetCsvConverter",
-            "spec": {
-                "attribute_type": "ObservationSet"
-            }
-        },
-        "base_condition_name": {
-            "description": "The condition that should be considered as the \"control\" or \"baseline\".", 
-            "name": "Base condition:", 
-            "required": false, 
-            "converter": "api.converters.basic_attributes.StringConverter",
+        }, 
+        "ann_col": {
+            "description": "The name of the column in the annotation file to use. Note that this column must contain two or more unique values to perform a proper contrast. Samples in other groups are ignored.", 
+            "name": "Covariate:", 
+            "required": false,
+            "converter": "api.converters.basic_attributes.UnrestrictedStringConverter",
             "spec": {
                 "attribute_type": "String",
                 "default": "Control"
             }
         },
-        "experimental_condition_name": {
+        "group1": {
+            "description": "The condition that should be considered as the \"control\" or \"baseline\".", 
+            "name": "Base condition:", 
+            "required": false,
+            "converter": "api.converters.basic_attributes.UnrestrictedStringConverter",
+            "spec": {
+                "attribute_type": "String",
+                "default": "Control"
+            }
+        },
+        "group2": {
             "description": "The condition that should be considered as the \"non-control\" or \"experimental\".", 
             "name": "Experimental/treated condition", 
             "required": false, 
-            "converter": "api.converters.basic_attributes.StringConverter",
+            "converter": "api.converters.basic_attributes.UnrestrictedStringConverter",
             "spec": {
                 "attribute_type": "String",
                 "default": "Experimental"
@@ -65,7 +68,7 @@
     "outputs": {
         "dge_results": {
             "required": true,
-            "converter": "api.converters.data_resource.LocalDockerSingleDataResourceConverter",
+            "converter": "api.converters.data_resource.ECSSingleDataResourceConverter",
             "spec": {
                 "attribute_type": "DataResource", 
                 "resource_type": "FT",
@@ -74,7 +77,7 @@
         },
         "normalized_counts": {
             "required": true,
-            "converter": "api.converters.data_resource.LocalDockerSingleDataResourceConverter",
+            "converter": "api.converters.data_resource.ECSSingleDataResourceConverter",
             "spec": {
                 "attribute_type": "DataResource", 
                 "resource_type": "EXP_MTX",
@@ -82,6 +85,6 @@
             }
         }
     }, 
-    "mode": "local_docker",
+    "mode": "ecs",
     "workspace_operation": true
 }
