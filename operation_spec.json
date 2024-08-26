@@ -27,30 +27,30 @@
         "ann_col": {
             "description": "The name of the column in the annotation file to use. Note that this column must contain two or more unique values to perform a proper contrast. Samples in other groups are ignored.", 
             "name": "Covariate:", 
-            "required": false,
+            "required": true,
             "converter": "api.converters.basic_attributes.UnrestrictedStringConverter",
             "spec": {
-                "attribute_type": "String",
+                "attribute_type": "UnrestrictedString",
                 "default": "Control"
             }
         },
         "group1": {
             "description": "The condition that should be considered as the \"control\" or \"baseline\".", 
             "name": "Base condition:", 
-            "required": false,
+            "required": true,
             "converter": "api.converters.basic_attributes.UnrestrictedStringConverter",
             "spec": {
-                "attribute_type": "String",
+                "attribute_type": "UnrestrictedString",
                 "default": "Control"
             }
         },
         "group2": {
             "description": "The condition that should be considered as the \"non-control\" or \"experimental\".", 
             "name": "Experimental/treated condition", 
-            "required": false, 
+            "required": true, 
             "converter": "api.converters.basic_attributes.UnrestrictedStringConverter",
             "spec": {
-                "attribute_type": "String",
+                "attribute_type": "UnrestrictedString",
                 "default": "Experimental"
             }
         },
